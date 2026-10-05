@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Eskwela PH</title>
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      display: grid;
+      place-items: center;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      color: #eef3ff;
+      background:
+        radial-gradient(820px 380px at 50% 36%, rgba(18, 86, 255, 0.34), transparent 68%),
+        radial-gradient(520px 220px at 50% 44%, rgba(245, 196, 81, 0.16), transparent 70%),
+        linear-gradient(180deg, #02040a 0%, #07111f 58%, #0b1a36 100%);
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(circle at 50% 42%, #000 12%, transparent 72%);
+    }
+    main {
+      position: relative;
+      width: min(920px, calc(100% - 32px));
+      display: grid;
+      justify-items: center;
+      gap: 40px;
+      padding: 28px 0 56px;
+    }
+    img {
+      width: min(820px, 100%);
+      height: auto;
+      filter: drop-shadow(0 22px 48px rgba(18, 86, 255, 0.38));
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+    }
+    .btn {
+      min-width: 250px;
+      padding: 16px 28px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font: 700 16px/1 "Segoe UI", system-ui, sans-serif;
+      letter-spacing: 0.01em;
+      text-align: center;
+      text-decoration: none;
+    }
+    .windows {
+      color: #fff;
+      background: linear-gradient(180deg, #3b78ff 0%, #0a3fe0 100%);
+      box-shadow: 0 0 0 1px rgba(245, 196, 81, 0.55), 0 14px 34px rgba(12, 77, 255, 0.48);
+    }
+    .windows:hover { filter: brightness(1.08); }
+    .windows:focus-visible { outline: 2px solid #f5c451; outline-offset: 4px; }
+    .mac {
+      color: #8f98a8;
+      background: #171c26;
+      border-color: #2c3340;
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .windows:hover { filter: none; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <img src="logo.png" alt="Eskwela PH, School Forms Management System">
+    <div class="actions">
+      <a class="btn windows" href="https://github.com/marky122/eskwelaph-updates/releases/download/v1.0.7/Eskwela-PH-Setup-1.0.7.exe">Download for Windows</a>
+      <button class="btn mac" type="button" disabled aria-disabled="true">Download for Mac</button>
+    </div>
+  </main>
+</body>
+</html>
