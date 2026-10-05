@@ -63,17 +63,15 @@
       background: linear-gradient(180deg, #3b78ff 0%, #0a3fe0 100%);
       box-shadow: 0 0 0 1px rgba(245, 196, 81, 0.55), 0 14px 34px rgba(12, 77, 255, 0.48);
     }
-    .windows:hover { filter: brightness(1.08); }
-    .windows:focus-visible { outline: 2px solid #f5c451; outline-offset: 4px; }
+    .windows:hover, .mac:hover { filter: brightness(1.08); }
+    .windows:focus-visible, .mac:focus-visible { outline: 2px solid #f5c451; outline-offset: 4px; }
     .mac {
-      color: #8f98a8;
-      background: #171c26;
-      border-color: #2c3340;
-      cursor: not-allowed;
-      opacity: 0.7;
+      color: #1a1204;
+      background: linear-gradient(180deg, #ffe08a 0%, #f5c451 48%, #c99216 100%);
+      box-shadow: 0 0 0 1px rgba(255, 224, 138, 0.45), 0 14px 34px rgba(201, 146, 22, 0.38);
     }
     @media (prefers-reduced-motion: reduce) {
-      .windows:hover { filter: none; }
+      .windows:hover, .mac:hover { filter: none; }
     }
   </style>
 </head>
@@ -82,7 +80,7 @@
     <img src="logo.png" alt="Eskwela PH, School Forms Management System">
     <div class="actions">
       <a class="btn windows" href="https://github.com/marky122/eskwelaph-updates/releases/download/v1.0.7/Eskwela-PH-Setup-1.0.7.exe">Download for Windows</a>
-      <button class="btn mac" type="button" disabled aria-disabled="true">Download for Mac</button>
+      <a class="btn mac" href="https://github.com/marky122/eskwelaph-updates/releases/download/v1.0.7/EskwelaPH-1.0.7-mac-x64.dmg">Download for Mac</a>
     </div>
   </main>
 </body>
