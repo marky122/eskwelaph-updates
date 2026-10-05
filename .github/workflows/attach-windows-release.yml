@@ -41,10 +41,13 @@ jobs:
         run: |
           set -euo pipefail
           existing=$(gh api "repos/${{ github.repository }}/releases/${RELEASE_ID}/assets" --jq ".[] | select(.name==\"$ASSET\") | .id" || true)
-          if [ -n "$existing" ]; then
+          if [ -n "${existing:-}" ]; then
             gh api --method DELETE "repos/${{ github.repository }}/releases/assets/${existing}"
           fi
-          gh api --method POST \
+          curl -fL \
+            -X POST \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
             -H "Content-Type: application/octet-stream" \
-            --input "$ASSET" \
-            "repos/${{ github.repository }}/releases/${RELEASE_ID}/assets?name=${ASSET}"
+            --data-binary "@$ASSET" \
+            "https://uploads.github.com/repos/${{ github.repository }}/releases/${RELEASE_ID}/assets?name=${ASSET}"
