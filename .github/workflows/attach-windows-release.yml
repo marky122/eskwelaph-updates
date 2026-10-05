@@ -1,0 +1,50 @@
+name: Attach Windows Release Asset
+on:
+  workflow_dispatch:
+    inputs:
+      release_id:
+        description: Numeric GitHub release id
+        required: true
+      source_url:
+        description: Public URL of the installer
+        required: true
+      asset_name:
+        description: Asset filename
+        required: true
+        default: Eskwela-PH-Setup-1.0.8.exe
+      expected_sha256:
+        description: Expected SHA-256 of the installer
+        required: true
+jobs:
+  attach:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download installer
+        run: |
+          set -euo pipefail
+          curl -fL --retry 5 --retry-delay 5 -o "$ASSET" "$SOURCE"
+          actual=$(sha256sum "$ASSET" | awk '{print $1}')
+          echo "bytes=$(wc -c < "$ASSET")"
+          echo "sha256=$actual"
+          test "$actual" = "$EXPECTED"
+        env:
+          ASSET: ${{ github.event.inputs.asset_name }}
+          SOURCE: ${{ github.event.inputs.source_url }}
+          EXPECTED: ${{ github.event.inputs.expected_sha256 }}
+      - name: Upload to release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ASSET: ${{ github.event.inputs.asset_name }}
+          RELEASE_ID: ${{ github.event.inputs.release_id }}
+        run: |
+          set -euo pipefail
+          existing=$(gh api "repos/${{ github.repository }}/releases/${RELEASE_ID}/assets" --jq ".[] | select(.name==\"$ASSET\") | .id" || true)
+          if [ -n "$existing" ]; then
+            gh api --method DELETE "repos/${{ github.repository }}/releases/assets/${existing}"
+          fi
+          gh api --method POST \
+            -H "Content-Type: application/octet-stream" \
+            --input "$ASSET" \
+            "repos/${{ github.repository }}/releases/${RELEASE_ID}/assets?name=${ASSET}"
