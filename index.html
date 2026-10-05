@@ -80,8 +80,59 @@
     <img src="logo.png" alt="Eskwela PH, School Forms Management System">
     <div class="actions">
       <a class="btn windows" href="https://github.com/marky122/eskwelaph-updates/releases/download/v1.0.7/Eskwela-PH-Setup-1.0.7.exe">Download for Windows</a>
-      <a class="btn mac" href="https://github.com/marky122/eskwelaph-updates/releases/download/v1.0.7/EskwelaPH-1.0.7-mac-x64.dmg">Download for Mac</a>
+      <a class="btn mac" data-arch="intel" href="https://github.com/marky122/eskwelaph-updates/releases/download/v1.0.7/EskwelaPH-1.0.7-mac-x64.dmg">Download for Mac (Intel)</a>
+      <a class="btn mac" data-arch="arm" href="https://github.com/marky122/eskwelaph-updates/releases/download/v1.0.7/EskwelaPH-1.0.7-mac-arm64.dmg">Download for Mac (Apple Silicon)</a>
     </div>
   </main>
+  <script>
+    (function () {
+      var intel = document.querySelector('[data-arch="intel"]');
+      var arm = document.querySelector('[data-arch="arm"]');
+      function show(kind) {
+        if (kind === "intel") {
+          arm.hidden = true;
+          intel.textContent = "Download for Mac";
+        } else if (kind === "arm") {
+          intel.hidden = true;
+          arm.textContent = "Download for Mac";
+        }
+      }
+      var ua = navigator.userAgent || "";
+      var platform = navigator.platform || "";
+      var isMac = /Mac/i.test(platform) || /Macintosh/i.test(ua);
+      var isTouchMac = isMac && navigator.maxTouchPoints > 1;
+      if (!isMac || /iPhone|iPad|iPod/i.test(ua) || isTouchMac) return;
+      function fromRenderer() {
+        try {
+          var canvas = document.createElement("canvas");
+          var gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+          if (!gl) return null;
+          var ext = gl.getExtension("WEBGL_debug_renderer_info");
+          var renderer = String(ext ? gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) : "");
+          if (/Apple M\d|Apple GPU/i.test(renderer)) return "arm";
+          if (/Intel|AMD|Radeon|NVIDIA|GeForce/i.test(renderer)) return "intel";
+        } catch (error) {}
+        return null;
+      }
+      var client = navigator.userAgentData;
+      if (client && client.getHighEntropyValues) {
+        client.getHighEntropyValues(["architecture"]).then(function (data) {
+          var arch = data && data.architecture;
+          if (arch === "arm") show("arm");
+          else if (arch === "x86") show("intel");
+          else {
+            var guess = fromRenderer();
+            if (guess) show(guess);
+          }
+        }).catch(function () {
+          var guess = fromRenderer();
+          if (guess) show(guess);
+        });
+        return;
+      }
+      var guess = fromRenderer();
+      if (guess) show(guess);
+    })();
+  </script>
 </body>
 </html>
