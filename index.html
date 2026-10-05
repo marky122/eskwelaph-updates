@@ -134,5 +134,24 @@
       if (guess) show(guess);
     })();
   </script>
+  <script>
+    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+    Tawk_API.onLoad = function () {
+      var ua = navigator.userAgent || "";
+      var os = /Windows/.test(ua) ? "Windows" : /Mac OS X/.test(ua) ? "macOS" : /Linux/.test(ua) ? "Linux" : "";
+      var attrs = { source: "download-page" };
+      if (os) attrs["operating-system"] = os;
+      if (Tawk_API.setAttributes) Tawk_API.setAttributes(attrs, function () {});
+      if (Tawk_API.addTags) Tawk_API.addTags(["download-page"], function () {});
+    };
+    (function () {
+      var script = document.createElement("script");
+      script.async = true;
+      script.src = "https://embed.tawk.to/6ac011c8b86f9e34c557b811/1k3v4au4o";
+      script.charset = "UTF-8";
+      script.setAttribute("crossorigin", "*");
+      document.body.appendChild(script);
+    })();
+  </script>
 </body>
 </html>
